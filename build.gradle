@@ -1,50 +1,31 @@
-buildscript {
-    repositories {
-        maven {
-            url = "https://maven.minecraftforge.net/"
-        }
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath fg.deobf("net.minecraftforge.gradle:ForgeGradle:6.1.+")
-    }
-}
-
 plugins {
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.minecraftforge.gradle' version '6.1.86' // pick latest stable ForgeGradle 6.x version
 }
 
 group = 'com.kamemameha'
-version = '1.0.0'
+version = '1.0'
+archivesBaseName = 'moonhueinjector'
 
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
-}
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 minecraft {
     mappings channel: 'official', version: '1.20.1'
-    copyIdeResources = true
-
+    
     runs {
         client {
             workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-            mods {
-                moonhueinjector {
-                    source sourceSets.main
-                }
-            }
         }
     }
 }
 
-repositories {
-    maven { url 'https://cursemaven.com' }
+dependencies {
+    // Put your dependencies here
 }
 
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
-    implementation 'curse.maven:enhanced-celestials-467569:5200675' // Adjust version ID as needed
-    implementation 'curse.maven:oculus-499980:4988822' // Adjust version ID as needed
+repositories {
+    maven {
+        name = "Forge"
+        url = "https://maven.minecraftforge.net/"
+    }
+    mavenCentral()
 }
