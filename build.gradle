@@ -1,16 +1,23 @@
-plugins {
-    id 'net.minecraftforge.gradle' version '6.1.86' // pick latest stable ForgeGradle 6.x version
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1.+'
+    }
 }
 
-group = 'com.kamemameha'
+apply plugin: 'net.minecraftforge.gradle'
+
+group = 'com.kamemameha.moonhueinjector'
 version = '1.0'
 archivesBaseName = 'moonhueinjector'
 
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     mappings channel: 'official', version: '1.20.1'
-    
     runs {
         client {
             workingDirectory project.file('run')
@@ -18,14 +25,11 @@ minecraft {
     }
 }
 
-dependencies {
-    // Put your dependencies here
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.minecraftforge.net' }
 }
 
-repositories {
-    maven {
-        name = "Forge"
-        url = "https://maven.minecraftforge.net/"
-    }
-    mavenCentral()
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
 }
