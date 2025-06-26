@@ -1,0 +1,9 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+
+[[mods]]
+modId="moonhueinjector"
+version="1.0.0"
+displayName="Moon Hue Injector"
+description="Injects moon hue tint from Enhanced Celestials into shaders via Oculus."
