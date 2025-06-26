@@ -5,6 +5,19 @@ plugins {
 group = 'com.kamemameha'
 version = '1.0.0'
 
+buildscript {
+    repositories {
+        maven {
+            url = "https://maven.minecraftforge.net/"
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath fg.deobf("net.minecraftforge.gradle:ForgeGradle:6.1.+")
+    }
+}
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
