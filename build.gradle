@@ -1,35 +1,35 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = "https://maven.minecraftforge.net" }
         mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1.+'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1.77'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 
-group = 'com.kamemameha.moonhueinjector'
+group = 'com.kamemameha'
 version = '1.0'
 archivesBaseName = 'moonhueinjector'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 minecraft {
     mappings channel: 'official', version: '1.20.1'
+
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory project.file("run")
         }
     }
 }
 
 repositories {
     mavenCentral()
-    maven { url 'https://maven.minecraftforge.net' }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+    // no explicit 'minecraft' dependency needed in ForgeGradle 5.x
 }
