@@ -1,0 +1,47 @@
+// Main mod entry point
+package com.kamemameha.moonhueinjector;
+
+import com.mojang.math.Vector3f;
+import corgitaco.enhancedcelestials.EnhancedCelestialsWorldData;
+import dev.corgitaco.enhancedcelestials.context.EnhancedCelestialsContext;
+import dev.corgitaco.enhancedcelestials.forecast.LunarForecast;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+@Mod(MoonHueInjector.MODID)
+public class MoonHueInjector {
+    public static final String MODID = "moonhueinjector";
+
+    public MoonHueInjector() {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
+    }
+
+    private void onClientSetup(FMLClientSetupEvent event) {
+        MinecraftForge.EVENT_BUS.addListener(this::onRender);
+    }
+
+    private void onRender(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_SKY) return;
+
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null || !(mc.level instanceof EnhancedCelestialsWorldData)) return;
+
+        EnhancedCelestialsWorldData data = (EnhancedCelestialsWorldData) mc.level;
+        EnhancedCelestialsContext context = data.getLunarContext();
+        if (context == null) return;
+
+        LunarForecast forecast = context.getLunarForecast();
+        float t = (float)(mc.level.getDayTime() % 24000L) / 24000.0F;
+
+        Vector3f color = ((ShaderLunarForecast) forecast).harley$getColorSettings().mix(t, forecast.getBlend());
+
+        // Oculus uniform push (pseudo-code, replace with actual API call)
+        ShaderHelper.setUniform("moonHueOverlay", color.x(), color.y(), color.z());
+    }
+}
