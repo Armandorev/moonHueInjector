@@ -34,7 +34,6 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.1.0'
     implementation project(':enhanced-celestials')
     implementation 'org.joml:joml:1.10.5'
-
 }
 
 minecraft {
