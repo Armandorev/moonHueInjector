@@ -6,7 +6,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 import net.minecraft.client.Minecraft;
 
 import corgitaco.enhancedcelestials.EnhancedCelestialsWorldData;
