@@ -11,7 +11,6 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:5.1.77'
-        implementation files('libs/enhanced-celestials-forge-1.20.1-5.0.3.1.jar')
     }
 }
 
@@ -36,8 +35,9 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.1.0'
-    implementation project(':enhanced-celestials')
     implementation 'org.joml:joml:1.10.5'
+    implementation files('libs/enhanced-celestials-forge-1.20.1-5.0.3.1.jar')
+
 }
 
 minecraft {
