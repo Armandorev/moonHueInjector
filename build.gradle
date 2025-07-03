@@ -1,12 +1,9 @@
 buildscript {
     repositories {
+        mavenCentral()
         maven {
             name = "Forge"
             url = "https://maven.minecraftforge.net/"
-        }
-        mavenCentral()
-        flatDir {
-            dirs 'libs'
         }
     }
     dependencies {
@@ -20,6 +17,7 @@ group = 'com.example'
 version = '1.0'
 archivesBaseName = 'moonhueinjector'
 
+// Set Java toolchain (required for ForgeGradle 5+ and Java 17)
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 repositories {
@@ -28,19 +26,25 @@ repositories {
         name = "Forge"
         url = "https://maven.minecraftforge.net/"
     }
-    flatDir {
-        dirs 'libs'
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven"
     }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.1.0'
+
+    // For vector math operations
     implementation 'org.joml:joml:1.10.5'
-    implementation files('libs/enhanced-celestials-forge-1.20.1-5.0.3.1.jar')
+
+    // Enhanced Celestials from CurseForge (deobfuscated)
+    implementation fg.deobf("curse.maven:enhanced-celestials-438447:6315587")
 }
 
 minecraft {
     mappings channel: 'official', version: '1.20.1'
+
     runs {
         client {
             workingDirectory project.file('run')
