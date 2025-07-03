@@ -1,39 +1,48 @@
 package com.kamemameha.moonhueinjector;
 
+import com.mojang.math.Vector3f;
+import corgitaco.enhancedcelestials.EnhancedCelestialsWorldData;
+import corgitaco.enhancedcelestials.context.EnhancedCelestialsContext;
+import corgitaco.enhancedcelestials.lunar.LunarForecast;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import org.joml.Vector3f;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraft.client.Minecraft;
-
-import corgitaco.enhancedcelestials.EnhancedCelestialsWorldData;
-import corgitaco.enhancedcelestials.EnhancedCelestialsContext;
-import corgitaco.enhancedcelestials.lunarevent.LunarForecast;
 
 @Mod("moonhueinjector")
 public class MoonHueInjector {
 
-public MoonHueInjector() {
-    MinecraftForge.EVENT_BUS.register(this);
-    ShaderHelper.init(); // ✅ Initialize the shader callback
-}
+    public MoonHueInjector() {
+        // Register client setup event
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
+    }
 
-    @SubscribeEvent
-    public void onRender(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_SKY) return;
+    private void onClientSetup(final FMLClientSetupEvent event) {
+        // Initialize the dynamic uniform texture
+        MoonHueUniforms.init();
+    }
 
-        Minecraft mc = Minecraft.getInstance();
-        if (!(mc.level instanceof EnhancedCelestialsWorldData data)) return;
+    @Mod.EventBusSubscriber(modid = "moonhueinjector", value = Dist.CLIENT)
+    public static class ClientEvents {
 
-        EnhancedCelestialsContext context = data.getLunarContext();
-        if (context == null) return;
+        @SubscribeEvent
+        public static void onRenderLevelStage(RenderLevelStageEvent event) {
+            if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_SKY) return;
 
-        LunarForecast forecast = context.getLunarForecast();
-        Vector3f tint = forecast.getBlend(); // RGB tint from EC
+            Minecraft mc = Minecraft.getInstance();
+            if (!(mc.level instanceof EnhancedCelestialsWorldData data)) return;
 
-        ShaderHelper.setUniform("moonHueOverlay", tint.x(), tint.y(), tint.z());
+            EnhancedCelestialsContext context = data.getLunarContext();
+            if (context == null) return;
+
+            LunarForecast forecast = context.getLunarForecast();
+            Vector3f tint = forecast.getBlend(); // RGB tint from EC
+
+            // You can use 1.0f for full strength, or replace with your dynamic value
+            MoonHueUniforms.updateUniform(tint.x(), tint.y(), tint.z(), 1.0f);
+        }
     }
 }
