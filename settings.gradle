@@ -1,3 +1,1 @@
 rootProject.name = 'moonhueinjector'
-include ':enhanced-celestials'
-project(':enhanced-celestials').projectDir = file('enhanced-celestials')
