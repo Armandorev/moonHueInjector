@@ -1,6 +1,6 @@
 package com.kamemameha.moonhueinjector;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 import corgitaco.enhancedcelestials.EnhancedCelestialsWorldData;
 import corgitaco.enhancedcelestials.context.EnhancedCelestialsContext;
 import corgitaco.enhancedcelestials.lunar.LunarForecast;
